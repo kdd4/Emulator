@@ -26,5 +26,7 @@ namespace Emulator
 
 	public:
 		CommandCollection();
+
+		void getFunction(int8_t command, void(*callback)(IEmulator*, const CommandComparator&)) const;
 	};
 }

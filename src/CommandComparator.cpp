@@ -5,8 +5,7 @@ namespace Emulator
 
 	CommandComparator::CommandComparator(int8_t val, int8_t mask = 0xFF)
 		: val(val), mask(mask)
-	{
-	}
+	{}
 
 	bool CommandComparator::operator==(const CommandComparator& right) const
 	{
@@ -33,8 +32,9 @@ namespace Emulator
 	{
 		this->val = val;
 	}
+
 	int8_t CommandComparator::getPage() const
 	{
-		return 0;
+		return (val >> 5) & 0x7;
 	}
 }

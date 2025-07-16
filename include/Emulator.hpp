@@ -25,7 +25,8 @@ namespace Emulator {
 		int8_t memory[MEM_SIZE];
 		int flag;
 		int8_t regs[REGISTER_COUNT];
-		short int program_cnt;
+		int program_cnt;
+		CommandCollection commands;
 
 	public:
 		Emulator(int8_t memory[MEM_SIZE]);
@@ -42,6 +43,8 @@ namespace Emulator {
 
 		/// 0 - overfill, 1 - less 0, 2 - not equal 0
 		void updateFlag(int8_t val, bool overfill = false) override;
+
+		void setProgramCnt(int address, int8_t page) override;
 
 		bool cicle() override;
 	};

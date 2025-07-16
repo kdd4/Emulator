@@ -83,6 +83,16 @@ namespace Emulator {
 		}
 	}
 
+	void Emulator::setProgramCnt(int address, int8_t page)
+	{
+		if (page < 0 || page > 7)
+		{
+			throw WrongPage();
+		}
+
+		this->program_cnt = int(page) << 8 + address;
+	}
+
 	bool Emulator::cicle()
 	{
 		if (this->program_cnt >= MEM_SIZE) {
@@ -91,6 +101,10 @@ namespace Emulator {
 
 		int8_t command = this->memory[this->program_cnt];
 
-		
+		void (*callback_func)(IEmulator*, const CommandComparator&);
+
+		commands.getFunction(command, callback_func);
+
+		callback_func(this, command);
 	}
 }
