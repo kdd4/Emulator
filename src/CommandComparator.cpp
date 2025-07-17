@@ -3,7 +3,7 @@
 namespace Emulator 
 {
 
-	CommandComparator::CommandComparator(int8_t val, int8_t mask = 0xFF)
+	CommandComparator::CommandComparator(int8_t val, int8_t mask)
 		: val(val), mask(mask)
 	{}
 
@@ -11,6 +11,12 @@ namespace Emulator
 	{
 		int8_t unitedMask = this->mask & right.mask;
 		return ((this->val ^ right.val) & unitedMask) == 0;
+	}
+
+	bool CommandComparator::operator!=(const CommandComparator& right) const
+	{
+		int8_t unitedMask = this->mask & right.mask;
+		return ((this->val ^ right.val) & unitedMask) != 0;
 	}
 
 	int8_t CommandComparator::getMask() const

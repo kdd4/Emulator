@@ -14,6 +14,7 @@ namespace Emulator
 		CommandComparator(int8_t val, int8_t mask = 0xFF);
 
 		bool operator==(const CommandComparator& right) const;
+		bool operator!=(const CommandComparator& right) const;
 
 		int8_t getMask() const;
 		void setMask(int8_t mask);

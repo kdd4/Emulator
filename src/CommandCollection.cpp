@@ -11,7 +11,8 @@ namespace Emulator
 		}
 
 		this->callback_functions[callback_functions_last_id] = callback;
-		this->comporators[CommandComparator(val, 0b00011111)] = callback_functions_last_id++;
+
+		this->comporators.push_back(std::make_pair(CommandComparator(val, 0b00011111), callback_functions_last_id++));
 	}
 
 	CommandCollection::CommandCollection()
@@ -68,7 +69,7 @@ namespace Emulator
 			});
 
 		// SUB
-		addFunctions(0b00100, [](IEmulator* emulator, const CommandComparator& command)
+		addFunctions(0b00110, [](IEmulator* emulator, const CommandComparator& command)
 			{
 				int8_t page = command.getPage();
 				int8_t r1 = emulator->getReg(0);
@@ -83,7 +84,7 @@ namespace Emulator
 			});
 
 		// SBB
-		addFunctions(0b00101, [](IEmulator* emulator, const CommandComparator& command)
+		addFunctions(0b00111, [](IEmulator* emulator, const CommandComparator& command)
 			{
 				int8_t page = command.getPage();
 				int8_t r1 = emulator->getReg(0);
@@ -276,9 +277,21 @@ namespace Emulator
 			});
 	}
 
-	void CommandCollection::getFunction(int8_t command, void(*callback)(IEmulator*, const CommandComparator&)) const
+	void CommandCollection::getFunction(int8_t command, void(*&callback)(IEmulator*, const CommandComparator&)) const
 	{
-		int func_ind = comporators.at(CommandComparator(command));
+		int func_ind = -1;
+		for (auto& pair : this->comporators)
+		{
+			if (pair.first != command) continue;
+
+			func_ind = pair.second;
+			break;
+		}
+
+		if (func_ind == -1)
+		{
+			throw CommandNotFound();
+		}
 
 		callback = callback_functions[func_ind];
 	}

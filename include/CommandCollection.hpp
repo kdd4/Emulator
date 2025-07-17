@@ -3,7 +3,7 @@
 #include "CommandComparator.hpp"
 #include "IEmulator.hpp"
 
-#include <unordered_map>
+#include <vector>
 #include <exception>
 
 #define CALLBACK_FUNCTIONS_SIZE 20
@@ -14,10 +14,14 @@ namespace Emulator
 		virtual const char* what() const { return "Too many functions' callbacks"; }
 	};
 
+	struct CommandNotFound : std::exception {
+		virtual const char* what() const { return "Command not found"; }
+	};
+
 	class CommandCollection 
 	{
 	private:
-		std::unordered_map<CommandComparator, int> comporators;
+		std::vector<std::pair<CommandComparator, int>> comporators;
 
 		void (*callback_functions[CALLBACK_FUNCTIONS_SIZE])(IEmulator*, const CommandComparator&);
 		int callback_functions_last_id = 0;
@@ -27,6 +31,6 @@ namespace Emulator
 	public:
 		CommandCollection();
 
-		void getFunction(int8_t command, void(*callback)(IEmulator*, const CommandComparator&)) const;
+		void getFunction(int8_t command, void(*&callback)(IEmulator*, const CommandComparator&)) const;
 	};
 }
