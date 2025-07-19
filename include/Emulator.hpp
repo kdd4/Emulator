@@ -12,11 +12,11 @@
 namespace Emulator {
 
 	struct WrongPage : std::exception {
-		virtual const char* what() const { return "Wrong page"; }
+		virtual const char* what() const noexcept { return "Wrong page"; }
 	};
 
 	struct WrongRegId : std::exception {
-		virtual const char* what() const { return "Wrong register id"; }
+		virtual const char* what() const noexcept { return "Wrong register id"; }
 	};
 
 	class Emulator : public IEmulator

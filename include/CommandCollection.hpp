@@ -5,20 +5,21 @@
 
 #include <vector>
 #include <exception>
+#include <cmath>
 
 #define CALLBACK_FUNCTIONS_SIZE 20
 
-namespace Emulator 
+namespace Emulator
 {
 	struct TooManyCallbacks : std::exception {
-		virtual const char* what() const { return "Too many functions' callbacks"; }
+		virtual const char* what() const noexcept { return "Too many functions' callbacks"; }
 	};
 
 	struct CommandNotFound : std::exception {
-		virtual const char* what() const { return "Command not found"; }
+		virtual const char* what() const noexcept { return "Command not found"; }
 	};
 
-	class CommandCollection 
+	class CommandCollection
 	{
 	private:
 		std::vector<std::pair<CommandComparator, int>> comporators;

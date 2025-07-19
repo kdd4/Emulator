@@ -1,4 +1,4 @@
-#include <iostream>ì
+#include <iostream>
 #include <vector>
 
 #ifdef _WIN32
@@ -31,29 +31,30 @@ int main()
 
 	Emulator::Emulator emul(code);
 
-	printf("prog_cnt,A1,A2,A3,{mem | -}\n");
+	printf("prog_cnt,A1,A2,A3,FLAG,{mem | -}\n");
 
-	try 
+	try
 	{
 		while (emul.cicle())
 		{
 			int prog_cnt = emul.getProgramCnt();
 			int A1 = emul.getReg(0), A2 = emul.getReg(1), A3 = emul.getReg(2);
+			int flag = emul.getFlag();
 
-			printf("%d,%d,%d,%d,", prog_cnt, A1, A2, A3);
+			printf("%d,%d,%d,%d,%d,", prog_cnt, A1, A2, A3, flag);
 
-			if (emul.getIsMemChanged()) 
+			if (emul.getIsMemChanged())
 			{
 				std::cout.write((char*)emul.getMemory(), MEM_SIZE);
 				std::cout << std::endl;
 			}
 			else
 			{
-				printf(",-\n");
+				printf("-\n");
 			}
 		}
 	}
-	catch (std::exception& exc) 
+	catch (std::exception& exc)
 	{
 		std::cout << "Error: " << exc.what() << std::endl;
 	}
