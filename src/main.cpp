@@ -56,7 +56,7 @@ int main()
 	}
 	catch (std::exception& exc)
 	{
-		std::cout << "Error: " << exc.what() << std::endl;
+		std::cout << "Error: Exception: " << exc.what() << std::endl;
 	}
 
 	return 0;
